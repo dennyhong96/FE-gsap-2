@@ -1,3 +1,3 @@
-# Barba.js with GreenSock
+#### Gsap Animation Build
 
-JavaScript page transitions using [Barba.js](https://barba.js.org/) and [GreenSock](https://greensock.com/?ref=7856eb).
+<img src="src/assets/gsap.gif" width="65%">

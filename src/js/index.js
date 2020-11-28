@@ -134,8 +134,8 @@ const timeline2 = gsap.timeline({ paused: true, reversed: true, defaults: { dura
 
 timeline2
   .to(headerOpen, { y: 0 })
-  .fromTo(contact, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.5)
-  .fromTo(social, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.5)
+  .fromTo(contact, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.5)
+  .fromTo(social, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.5)
   .fromTo(logo, { color: "#fff" }, { color: "#333" }, 0)
   .fromTo(menuBtn, { color: "#fff" }, { color: "#333" }, 0);
 
