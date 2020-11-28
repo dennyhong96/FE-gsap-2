@@ -34,12 +34,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@barba/core": "^2.8.0",
-    "@barba/prefetch": "^2.1.10",
-    "@barba/router": "^2.1.10",
     "core-js": "^3.7.0",
     "gsap": "^3.5.1",
-    "regenerator-runtime": "^0.13.7",
-    "reset-css": "^5.0.1"
+    "regenerator-runtime": "^0.13.7"
   }
 }

@@ -15,12 +15,63 @@
 
   &__logo {
     font-size: 2rem;
+    z-index: 2;
   }
 
   &__menu-btn {
     height: 4rem;
     width: 4rem;
     cursor: pointer;
+    z-index: 2;
+  }
+
+  &__open {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    color: #333;
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: 5% 1fr 1fr 5%;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    transform: translateY(-100%);
+
+    &__contact {
+      grid-column: 2 / 3;
+
+      h3 {
+        font-size: 2.8rem;
+        padding-bottom: 4rem;
+      }
+
+      p {
+        font-size: 1.8rem;
+      }
+    }
+
+    &__social {
+      h3 {
+        font-size: 2.8rem;
+        padding-bottom: 4rem;
+      }
+
+      &__links {
+        svg {
+          height: 2rem;
+          width: 2rem;
+          fill: currentColor;
+
+          &:not(:last-child) {
+            margin-right: 2rem;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -77,6 +128,16 @@
       transition: transform 0.3s ease-out;
       cursor: pointer;
     }
+  }
+
+  &--chef,
+  &--stylist {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
   }
 
   @media (max-width: 1024px) {
@@ -168,7 +229,7 @@
         }
 
         100% {
-          transform: scale(2);
+          transform: scale(1.5);
         }
       }
     }
