@@ -1,0 +1,126 @@
+.container {
+  background: radial-gradient(rgba(43, 55, 96, 1), rgba(11, 16, 35, 1));
+}
+
+.header {
+  &__inner {
+    min-height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    width: 90%;
+    margin: auto;
+  }
+
+  &__logo {
+    font-size: 2rem;
+  }
+
+  &__menu-btn {
+    height: 4rem;
+    width: 4rem;
+    cursor: pointer;
+  }
+}
+
+.section {
+  min-height: 90vh;
+  display: grid;
+  grid-template-columns: 5% repeat(3, 1fr) 5%;
+
+  &__details {
+    grid-column: 2 / 3;
+    align-self: end;
+
+    h1 {
+      font-size: 6.4rem;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 4.2rem;
+      padding: 2rem 0;
+    }
+
+    p {
+      font-size: 2.4rem;
+      padding: 2rem 0 5rem 0;
+    }
+  }
+
+  &__hero {
+    display: flex;
+    height: 500px;
+    align-self: center;
+    justify-self: center;
+    overflow: hidden;
+
+    &__image--right {
+      transform: translate(0, 10%);
+    }
+
+    &__image--left {
+      transform: translate(0, -10%);
+    }
+
+    &:hover {
+      .section__hero__image--right,
+      .section__hero__image--left {
+        transform: translate(0, 0);
+      }
+    }
+
+    &__image {
+      height: 100%;
+      transition: transform 0.3s ease-out;
+      cursor: pointer;
+    }
+  }
+}
+
+.progress {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  z-index: 100;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 2rem;
+      padding: 2rem;
+    }
+
+    &__dot {
+      width: 2rem;
+      height: 2rem;
+      background-color: #fff;
+      opacity: 50%;
+      border-radius: 5rem;
+      cursor: pointer;
+      z-index: 10;
+
+      &:hover {
+        animation: dot 0.5s ease-in-out infinite alternate;
+      }
+
+      &--active {
+        opacity: 100%;
+      }
+
+      @keyframes dot {
+        0% {
+          transform: scale(1);
+        }
+
+        100% {
+          transform: scale(2);
+        }
+      }
+    }
+  }
+}
