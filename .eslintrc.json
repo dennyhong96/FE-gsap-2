@@ -63,7 +63,7 @@
       "off"
     ],
     "no-invalid-this": [
-      "error"
+      "off"
     ],
     "no-multi-spaces": [
       "error"
@@ -104,7 +104,7 @@
       "error"
     ],
     "space-before-function-paren": [
-      "error",
+      "off",
       "never"
     ],
     "space-in-parens": [
