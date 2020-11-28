@@ -9,30 +9,58 @@ const backgrounds = [
   "radial-gradient(#4E4342,#161616)",
 ];
 
+const menuBtn = document.querySelector(".header__menu-btn");
+const logo = document.querySelector(".header__logo");
+const headerOpen = document.querySelector(".header__open");
+const social = document.querySelector(".header__open__social");
+const contact = document.querySelector(".header__open__contact");
+
 let currentSectionNum = 0;
 let nextScrollSectionNum = 0;
+let timeline;
 
-// Adds click listener
+// Adds click listener to dot buttons
 dots.forEach((dot, idx) => {
-  dot.addEventListener("click", function (evt) {
-    dots.forEach((dot) => dot.classList.remove("progress__item__dot--active"));
-    evt.target.classList.add("progress__item__dot--active");
-
-    changeSection(idx);
+  dot.addEventListener("click", function () {
+    // Changes active display section
+    changeActiveSection(idx);
   });
 });
 
-// Changes display section
-function changeSection(nextSectionNum) {
+// Changes active dot button
+function changeActiveDots(activeDot) {
+  dots.forEach((dot) => dot.classList.remove("progress__item__dot--active"));
+  activeDot.classList.add("progress__item__dot--active");
+}
+
+// Changes active section
+function changeActiveSection(nextSectionNum) {
   const currentSection = sections[currentSectionNum];
   const nextSection = sections[nextSectionNum];
-
   const currentSectionImgLeft = currentSection.querySelector(".section__hero__image--left");
   const currentSectionImgRight = currentSection.querySelector(".section__hero__image--right");
   const nextSectionImgLeft = nextSection.querySelector(".section__hero__image--left");
   const nextSectionImgRight = nextSection.querySelector(".section__hero__image--right");
 
-  const timeline = gsap.timeline({ defaults: { duration: 0.3 } });
+  // If animation is currently playing, do nothing
+  if (timeline?.isActive()) return;
+
+  // Changes active dot button
+  changeActiveDots(dots[nextSectionNum]);
+
+  timeline = gsap.timeline({
+    defaults: { duration: 0.3 },
+    onComplete() {
+      // Make dot btns clicable again
+      dots.forEach((dot) => {
+        dot.style.pointerEvents = "all";
+      });
+
+      // Update active section number
+      currentSectionNum = nextSectionNum;
+    },
+  });
+
   timeline
     .fromTo(currentSectionImgLeft, { y: "-10%" }, { y: "-100%" })
     .fromTo(currentSectionImgRight, { y: "10%" }, { y: "-100%" }, "-0.2")
@@ -50,27 +78,38 @@ function changeSection(nextSectionNum) {
     .fromTo(nextSectionImgLeft, { y: "100%" }, { y: "-10%" }, 0.7)
     .fromTo(nextSectionImgRight, { y: "100%" }, { y: "10%" }, 0.9)
     // Clears inline styles to make hover styles work again
-    .set([nextSectionImgLeft, nextSectionImgRight], { clearProps: "all" })
-    // Update current section number
-    .eventCallback("onComplete", () => (currentSectionNum = nextSectionNum));
+    .set([nextSectionImgLeft, nextSectionImgRight], { clearProps: "all" });
 }
 
 // Wheel event, different from a scroll event, does not have scroll bar
-document.addEventListener(
-  "wheel",
-  throttle(function (evt) {
-    // Wheels up
-    if (evt.deltaY > 0 && currentSectionNum < 2) {
-      nextScrollSectionNum++;
-      changeSection(nextScrollSectionNum);
-    }
+// touchmove event for mobile
+["wheel", "touchmove"].forEach((evtType) =>
+  document.addEventListener(
+    evtType,
+    throttle(function (evt) {
+      // Wheels up
+      if (evt.deltaY > 0) {
+        if (currentSectionNum < 2) {
+          nextScrollSectionNum++;
+        } else {
+          nextScrollSectionNum = 0;
+        }
+        changeActiveDots(dots[nextScrollSectionNum]);
+        changeActiveSection(nextScrollSectionNum);
+      }
 
-    // Wheels down
-    if (evt.deltaY < 0 && currentSectionNum > 0) {
-      nextScrollSectionNum--;
-      changeSection(nextScrollSectionNum);
-    }
-  }, 1500)
+      // Wheels down
+      if (evt.deltaY < 0) {
+        if (currentSectionNum > 0) {
+          nextScrollSectionNum--;
+        } else {
+          nextScrollSectionNum = sections.length - 1;
+        }
+        changeActiveDots(dots[nextScrollSectionNum]);
+        changeActiveSection(nextScrollSectionNum);
+      }
+    }, 1500)
+  )
 );
 
 // Throttling
@@ -89,3 +128,27 @@ function throttle(fn, limit) {
     }
   };
 }
+
+// Navigation animation
+const timeline2 = gsap.timeline({ paused: true, reversed: true, defaults: { duration: 0.5 } });
+
+timeline2
+  .to(headerOpen, { y: 0 })
+  .fromTo(contact, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.5)
+  .fromTo(social, { opacity: 0, y: 10 }, { opacity: 1, y: 0 }, 0.5)
+  .fromTo(logo, { color: "#fff" }, { color: "#333" }, 0)
+  .fromTo(menuBtn, { color: "#fff" }, { color: "#333" }, 0);
+
+menuBtn.addEventListener("click", function () {
+  // Toggles the animation based on .isReversed()
+  timeline2.reversed()
+    ? (() => {
+        timeline2.timeScale(1);
+        timeline2.play();
+      })()
+    : (() => {
+        // 2time speed when reversing the animation
+        timeline2.timeScale(2);
+        timeline2.reverse();
+      })();
+});
