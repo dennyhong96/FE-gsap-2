@@ -22,6 +22,8 @@ let timeline;
 // Adds click listener to dot buttons
 dots.forEach((dot, idx) => {
   dot.addEventListener("click", function () {
+    if (idx === currentSectionNum) return;
+
     // Changes active display section
     changeActiveSection(idx);
   });
@@ -148,7 +150,7 @@ menuBtn.addEventListener("click", function () {
       })()
     : (() => {
         // 2time speed when reversing the animation
-        timeline2.timeScale(2);
+        timeline2.timeScale(1.5);
         timeline2.reverse();
       })();
 });
