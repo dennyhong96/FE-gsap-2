@@ -1,3 +1,5 @@
+require("core-js/stable");
+require("regenerator-runtime/runtime");
 const { gsap } = require("gsap");
 
 const dots = document.querySelectorAll(".progress__item__dot");
