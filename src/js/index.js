@@ -53,11 +53,6 @@ function changeActiveSection(nextSectionNum) {
   timeline = gsap.timeline({
     defaults: { duration: 0.3 },
     onComplete() {
-      // Make dot btns clicable again
-      dots.forEach((dot) => {
-        dot.style.pointerEvents = "all";
-      });
-
       // Update active section number
       currentSectionNum = nextSectionNum;
     },
@@ -65,7 +60,7 @@ function changeActiveSection(nextSectionNum) {
 
   timeline
     .fromTo(currentSectionImgLeft, { y: "-10%" }, { y: "-100%" })
-    .fromTo(currentSectionImgRight, { y: "10%" }, { y: "-100%" }, "-0.2")
+    .fromTo(currentSectionImgRight, { y: "10%" }, { y: "-100%" }, "-=0.2")
     .to(container, { backgroundImage: backgrounds[nextSectionNum] })
     .fromTo(
       currentSection,
@@ -75,7 +70,8 @@ function changeActiveSection(nextSectionNum) {
     .fromTo(
       nextSection,
       { opacity: 0, pointerEvents: "none" },
-      { opacity: 1, pointerEvents: "all" }
+      { opacity: 1, pointerEvents: "all" },
+      "-=0.3"
     )
     .fromTo(nextSectionImgLeft, { y: "100%" }, { y: "-10%" }, 0.7)
     .fromTo(nextSectionImgRight, { y: "100%" }, { y: "10%" }, 0.9)
@@ -92,22 +88,22 @@ function changeActiveSection(nextSectionNum) {
       // Wheels up
       if (evt.deltaY > 0) {
         if (currentSectionNum < 2) {
-          nextScrollSectionNum++;
+          nextScrollSectionNum = currentSectionNum + 1;
         } else {
           nextScrollSectionNum = 0;
         }
-        changeActiveDots(dots[nextScrollSectionNum]);
+
         changeActiveSection(nextScrollSectionNum);
       }
 
       // Wheels down
       if (evt.deltaY < 0) {
         if (currentSectionNum > 0) {
-          nextScrollSectionNum--;
+          nextScrollSectionNum = currentSectionNum - 1;
         } else {
           nextScrollSectionNum = sections.length - 1;
         }
-        changeActiveDots(dots[nextScrollSectionNum]);
+
         changeActiveSection(nextScrollSectionNum);
       }
     }, 1500)
@@ -124,7 +120,7 @@ function throttle(fn, limit) {
     console.log(this); // => document (evt.currentTarget)
 
     if (!isThrottle) {
-      fn.apply(this, args);
+      fn.call(this, ...args);
       isThrottle = true;
       setTimeout(() => (isThrottle = false), limit);
     }
@@ -136,8 +132,8 @@ const timeline2 = gsap.timeline({ paused: true, reversed: true, defaults: { dura
 
 timeline2
   .to(headerOpen, { y: 0 })
-  .fromTo(contact, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.5)
-  .fromTo(social, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.5)
+  .fromTo(contact, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.45)
+  .fromTo(social, { opacity: 0, y: 45 }, { opacity: 1, y: 0 }, 0.45)
   .fromTo(logo, { color: "#fff" }, { color: "#333" }, 0)
   .fromTo(menuBtn, { color: "#fff" }, { color: "#333" }, 0);
 
